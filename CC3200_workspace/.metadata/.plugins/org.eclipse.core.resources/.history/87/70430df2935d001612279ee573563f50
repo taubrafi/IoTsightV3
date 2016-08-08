@@ -2,7 +2,7 @@
  * IMU.c
  *
  *  Created on: Jun 6, 2016
- *      Author: Rafi
+ *      Author: Rafi Taub
  */
 
 #include <string.h>

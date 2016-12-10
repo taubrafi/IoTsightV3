@@ -1,3 +1,7 @@
-Buildfile generation error occurred..
-This project was created using a version of compiler that is not currently installed: 5.2.6 [ARM]. Please go to CCS App Center to install the compiler of this version, or migrate the project to one of the available compiler versions by adjusting project properties.
-Build stopped..
+
+**** Build of configuration free_rtos for project oslib ****
+
+"C:\\TI\\ccsv6\\utils\\bin\\gmake" -k all 
+gmake: Nothing to be done for 'all'.
+
+**** Build Finished ****

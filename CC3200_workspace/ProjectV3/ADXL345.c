@@ -23,11 +23,54 @@
 
 int init_ADXL345(char addr)
 {
+
 	unsigned char data[2];
+
+	// BW = 1600Hz
+	data[0] = 0x2C;
+	data[1] = 0x0F;
+	if(I2C_IF_Write(addr, data, 2, true)<0)	return -1;
+	while(I2CMasterBusy(I2CA0_BASE)){}
+
+	// Act threshold
+	data[0] = 0x24;
+	data[1] = 0x20;
+	if(I2C_IF_Write(addr, data, 2, true)<0)	return -1;
+	while(I2CMasterBusy(I2CA0_BASE)){}
+
+	// Activity int control
+	data[0] = 0x27;
+	data[1] = 0x70;
+	if(I2C_IF_Write(addr, data, 2, true)<0)	return -1;
+	while(I2CMasterBusy(I2CA0_BASE)){}
+
+	// Int map
+	data[0] = 0x2F;
+	data[1] = 0x80;//0xEF; //0x8F;
+	if(I2C_IF_Write(addr, data, 2, true)<0)	return -1;
+	while(I2CMasterBusy(I2CA0_BASE)){}
+
+	// Data format
+	data[0] = 0x31;
+	data[1] = 0x0B;
+	if(I2C_IF_Write(addr, data, 2, true)<0)	return -1;
+	while(I2CMasterBusy(I2CA0_BASE)){}
+
+
+	// Int enable
+	data[0] = 0x2E;
+	data[1] = 0x91;// 0x10
+	if(I2C_IF_Write(addr, data, 2, true)<0)	return -1;
+	while(I2CMasterBusy(I2CA0_BASE)){}
+
+
+	// Turn on measurement
 	data[0] = 0x2d;
 	data[1] = 0x08;
 	if(I2C_IF_Write(addr, data, 2, true)<0)	return -1;
 	while(I2CMasterBusy(I2CA0_BASE)){}
+
+
 	return 0;
 }
 
@@ -57,9 +100,9 @@ int ADXL345_read_accdata(char addr, float* Xacc, float* Yacc, float* Zacc)
 	Zdata <<=8;
 	Zdata += (int)rdata[4];
 
-	*Xacc = Xdata;
-	*Yacc = Ydata;
-	*Zacc = Zdata;
+	*Xacc = ((float)Xdata) * 4 /1000;
+	*Yacc = ((float)Ydata) * 4 /1000;
+	*Zacc = ((float)Zdata) * 4 /1000;
 
 
 	return 0;

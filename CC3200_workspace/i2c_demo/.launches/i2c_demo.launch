@@ -5,7 +5,7 @@
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROGRAM.Stellaris In-Circuit Debug Interface_0/Cortex_M4_0" value="${build_artifact:i2c_demo}"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_PROJECT.Stellaris In-Circuit Debug Interface_0/Cortex_M4_0" value="i2c_demo"/>
 <stringAttribute key="com.ti.ccstudio.debug.debugModel.ATTR_TARGET_CONFIG" value="${target_config_active_default:i2c_demo}"/>
-<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.Stellaris In-Circuit Debug Interface_0/Cortex_M4_0" value="C:/Users\Rafi\Google Drive\Projects\IoTsightEmbedded\IoTsightembedded\CC3200_workspace\i2c_demo\Release\i2c_demo.out"/>
+<stringAttribute key="com.ti.ccstudio.debug.debugModel.MRU_PROGRAM.Stellaris In-Circuit Debug Interface_0/Cortex_M4_0" value="C:/Users\Rafi\Google Drive\Projects\IoTsightEmbedded\WorkspaceV2\IoTsightV3\CC3200_workspace\i2c_demo\Release\i2c_demo.out"/>
 <listAttribute key="org.eclipse.debug.core.MAPPED_RESOURCE_PATHS">
 <listEntry value="/i2c_demo"/>
 </listAttribute>

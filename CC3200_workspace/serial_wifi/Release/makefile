@@ -4,27 +4,25 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5
+CG_TOOL_ROOT := C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
 "./conversions.obj" \
-"./main.obj" \
 "./network_common.obj" \
 "./network_if.obj" \
-"./pinmux.obj" \
 "./serial_wifi.obj" \
 "./startup_ccs.obj" \
 "./uart_config.obj" \
 "./uart_if.obj" \
 "../cc3200v1p32.cmd" \
 $(GEN_CMDS__FLAG) \
--l"libc.a" \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/serial_wifi/ccs/../../../oslib/ccs/free_rtos/free_rtos.a" \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/serial_wifi/ccs/../../../simplelink/ccs/OS/simplelink.a" \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/serial_wifi/ccs/../../../driverlib/ccs/Release/driverlib.a" \
+-llibc.a \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/oslib/ccs/free_rtos/free_rtos.a" \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/simplelink/ccs/OS/simplelink.a" \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/driverlib/ccs/Release/driverlib.a" \
 
 -include ../makefile.init
 
@@ -55,6 +53,9 @@ ifneq ($(strip $(ASM_DEPS)),)
 endif
 ifneq ($(strip $(CC_DEPS)),)
 -include $(CC_DEPS)
+endif
+ifneq ($(strip $(SV7A_DEPS)),)
+-include $(SV7A_DEPS)
 endif
 ifneq ($(strip $(S55_DEPS)),)
 -include $(S55_DEPS)
@@ -147,14 +148,14 @@ all: serial_wifi.out
 serial_wifi.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armcl" -mv7M4 --code_state=16 --float_support=vfplib --abi=eabi -me -g --gcc --define=__CCS__ --define=ccs --define=USE_FREERTOS --define=SL_PLATFORM_MULTI_THREADED --define=PLATFORM_LP --define=cc3200 --diag_wrap=off --diag_warning=225 --display_error_number -z -m"serial_wifi.map" --heap_size=0x00008000 --stack_size=0x00001000 -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/include" --reread_libs --priority --display_error_number --diag_wrap=off --warn_sections --xml_link_info="serial_wifi_linkInfo.xml" --rom_model -o "serial_wifi.out" $(ORDERED_OBJS)
+	"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=vfplib --abi=eabi -me -g --gcc --define=__CCS__ --define=ccs --define=USE_FREERTOS --define=SL_PLATFORM_MULTI_THREADED --define=PLATFORM_LP --define=cc3200 --diag_wrap=off --diag_warning=225 --display_error_number -z -m"serial_wifi.map" --heap_size=0x00008000 --stack_size=0x00001000 -i"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/lib" -i"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/include" --reread_libs --priority --display_error_number --diag_wrap=off --warn_sections --xml_link_info="serial_wifi_linkInfo.xml" --rom_model -o "serial_wifi.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
 
 serial_wifi.bin: $(EXE_OUTPUTS)
 	@echo 'Invoking: ARM Hex Utility'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armhex"  -o "serial_wifi.bin" $(EXE_OUTPUTS__QUOTED)
+	"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armhex"  -o "serial_wifi.bin" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
@@ -162,14 +163,14 @@ serial_wifi.bin: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "conversions.pp" "main.pp" "network_common.pp" "network_if.pp" "pinmux.pp" "serial_wifi.pp" "startup_ccs.pp" "uart_config.pp" "uart_if.pp" 
-	-$(RM) "conversions.obj" "main.obj" "network_common.obj" "network_if.obj" "pinmux.obj" "serial_wifi.obj" "startup_ccs.obj" "uart_config.obj" "uart_if.obj" 
+	-$(RM) "conversions.d" "network_common.d" "network_if.d" "serial_wifi.d" "startup_ccs.d" "uart_config.d" "uart_if.d" 
+	-$(RM) "conversions.obj" "network_common.obj" "network_if.obj" "serial_wifi.obj" "startup_ccs.obj" "uart_config.obj" "uart_if.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
 post-build:
 	-@echo 'Converting to bin'
-	-"C:/ti/ccsv6/utils/tiobj2bin/tiobj2bin" "serial_wifi.out" "serial_wifi.bin" "C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armofd" "C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armhex" "C:/ti/ccsv6/utils/tiobj2bin/mkhex4bin"
+	-"C:/TI/ccsv6/utils/tiobj2bin/tiobj2bin" "serial_wifi.out" "serial_wifi.bin" "C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armofd" "C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armhex" "C:/TI/ccsv6/utils/tiobj2bin/mkhex4bin"
 	-@echo ' '
 
 .PHONY: all clean dependents

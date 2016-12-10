@@ -4,10 +4,10 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5
+CG_TOOL_ROOT := C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS
 
-GEN_OPTS__FLAG := --cmd_file="C:/ti/CC3200SDK_1.2.0/cc3200-sdk/ti_rtos/ti_rtos_config/ccs/Default/configPkg/compiler.opt"
-GEN_CMDS__FLAG := -l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/ti_rtos/ti_rtos_config/ccs/Default/configPkg/linker.cmd"
+GEN_OPTS__FLAG := 
+GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
 "./gpio_if.obj" \
@@ -15,10 +15,10 @@ ORDERED_OBJS += \
 "./network_common.obj" \
 "../cc3200v1p32.cmd" \
 $(GEN_CMDS__FLAG) \
--l"libc.a" \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/antenna_selection/ccs/../../../oslib/ccs/ti_rtos/ti_rtos.a" \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/antenna_selection/ccs/../../../driverlib/ccs/Release/driverlib.a" \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/antenna_selection/ccs/../../../simplelink/ccs/OS/simplelink.a" \
+-llibc.a \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/oslib/ccs/ti_rtos/ti_rtos.a" \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/driverlib/ccs/Release/driverlib.a" \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/simplelink/ccs/OS/simplelink.a" \
 
 -include ../makefile.init
 
@@ -49,6 +49,9 @@ ifneq ($(strip $(ASM_DEPS)),)
 endif
 ifneq ($(strip $(CC_DEPS)),)
 -include $(CC_DEPS)
+endif
+ifneq ($(strip $(SV7A_DEPS)),)
+-include $(SV7A_DEPS)
 endif
 ifneq ($(strip $(S55_DEPS)),)
 -include $(S55_DEPS)
@@ -137,21 +140,18 @@ BIN_OUTPUTS__QUOTED += \
 # All Target
 all: antenna_selection.out
 
-dependents:
-	-cd C:/ti/CC3200SDK_1.2.0/cc3200-sdk/ti_rtos/ti_rtos_config/ccs/Default && $(MAKE) clean all
-
 # Tool invocations
-antenna_selection.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS) C:/ti/CC3200SDK_1.2.0/cc3200-sdk/ti_rtos/ti_rtos_config/ccs/Default/configPkg/linker.cmd
+antenna_selection.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armcl" -mv7M4 --code_state=16 --float_support=vfplib --abi=eabi -me -g --gcc --define=cc3200 --define=NOTERM --define=ccs --define=SL_PLATFORM_MULTI_THREADED --diag_wrap=off --diag_warning=225 --display_error_number -z -m"antenna_selection.map" --heap_size=0x4000 --stack_size=0x4000 -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/include" --reread_libs --display_error_number --diag_wrap=off --warn_sections --xml_link_info="antenna_selection_linkInfo.xml" --rom_model -o "antenna_selection.out" $(ORDERED_OBJS)
+	"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=vfplib --abi=eabi -me -g --gcc --define=cc3200 --define=NOTERM --define=ccs --define=SL_PLATFORM_MULTI_THREADED --diag_wrap=off --diag_warning=225 --display_error_number -z -m"antenna_selection.map" --heap_size=0x4000 --stack_size=0x4000 -i"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/lib" -i"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/include" --reread_libs --display_error_number --diag_wrap=off --warn_sections --xml_link_info="antenna_selection_linkInfo.xml" --rom_model -o "antenna_selection.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
 
 antenna_selection.bin: $(EXE_OUTPUTS)
 	@echo 'Invoking: ARM Hex Utility'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armhex"  -o "antenna_selection.bin" $(EXE_OUTPUTS__QUOTED)
+	"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armhex"  -o "antenna_selection.bin" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
@@ -159,19 +159,18 @@ antenna_selection.bin: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "gpio_if.pp" "main.pp" "network_common.pp" 
+	-$(RM) "gpio_if.d" "main.d" "network_common.d" 
 	-$(RM) "gpio_if.obj" "main.obj" "network_common.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
 post-build:
 	-@echo 'convert to bin'
-	-"C:/ti/ccsv6/utils/tiobj2bin/tiobj2bin" "antenna_selection.out" "antenna_selection.bin" "C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armofd" "C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armhex" "C:/ti/ccsv6/utils/tiobj2bin/mkhex4bin"
+	-"C:/TI/ccsv6/utils/tiobj2bin/tiobj2bin" "antenna_selection.out" "antenna_selection.bin" "C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armofd" "C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armhex" "C:/TI/ccsv6/utils/tiobj2bin/mkhex4bin"
 	-@echo ' '
 
 .PHONY: all clean dependents
 .SECONDARY: post-build
-C:/ti/CC3200SDK_1.2.0/cc3200-sdk/ti_rtos/ti_rtos_config/ccs/Default/configPkg/linker.cmd:
 
 -include ../makefile.targets
 

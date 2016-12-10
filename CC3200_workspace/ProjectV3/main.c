@@ -46,8 +46,6 @@
 
 #include "includes.h"
 
-
-
 //*****************************************************************************
 //                 GLOBAL VARIABLES -- Start
 //*****************************************************************************
@@ -129,7 +127,7 @@ void UART1_Handler(void)
 
 
 
-int main()
+int main(void)
 {
 	long lRetVal = -1;
 	HTTPCli_Struct httpClient;
@@ -146,19 +144,27 @@ int main()
 	//
 	ClearTerm();
 	//GPIO_IF_LedConfigure(LED1|LED2|LED3);
-	DisplayBanner(APP_NAME);
+	//DisplayBanner(APP_NAME);
+
 
 	init_HMC5883(MAG_ADDR, true);
-	init_ADXL345(ACC_ADDR);
+	if(init_ADXL345(ACC_ADDR)<0)
+	{
+		while(1)
+		{
+			UART_PRINT("!!! mag I2c Error\n\r");
+		}
+	}
 	init_MPL115A2();
 	init_ds2401();
 	init_SD_card();
 
 	GPS_on();
+	GPS_off();
 
 	SD_write_file("hello.txt", "my name is", strlen("my name is"), SD_CREATE_AND_DELETE);
 
-	char strbuffer[100];
+	char strbuffer[128];
 	char databuf[100];
 
 	float Xmag=-1, Ymag=-1, Zmag=-1;
@@ -168,14 +174,15 @@ int main()
 
 	float pressure;
 
-	//int kkkk;
-	/*InitializeAppVariables();
+	/*
+	InitializeAppVariables();
 
 	UART_PRINT("\n\r\n\rStops here on failure caused by debug!\n\r\n\r");
 	lRetVal = ConnectToAP();
 
 	if(lRetVal < 0)
 	{
+		UART_PRINT("\n\rError!!!\n\r");
 		LOOP_FOREVER();
 	}
 
@@ -186,26 +193,48 @@ int main()
 	}
 	UART_PRINT("Connected to server!\n\r\n\r");
 	 */
-
+	GPIOPinWrite(GPIOA0_BASE, GPIO_PIN_7|GPIO_PIN_6, 0x00);
+	//if(ADXL345_read_accdata(ACC_ADDR, &Xacc, &Yacc, &Zacc)<0) UART_PRINT("!!! acc I2c Error\n\r");
 	while(1)
 	{
 		//if(gpsFix==1)
+		//long acc_it =  GPIOPinRead(GPIOA0_BASE, GPIO_PIN_4);
+		//GPIOPinWrite(GPIOA0_BASE, GPIO_PIN_7, 0xFF*(acc_it == 0));
+		//if(acc_it>0)
+		//{
+
+
 		UART_PRINT("\33[H\33[2J");
+		UART_PRINT("Software compiled: ");
+		UART_PRINT(__TIME__);
+		UART_PRINT(" ");
+		UART_PRINT(__DATE__);
+		UART_PRINT("\n\r");
+		UART_PRINT("\n\rREADY...\n\r");
+
+		while(abs(Xacc) < 5)
+		{
+			if(ADXL345_read_accdata(ACC_ADDR, &Xacc, &Yacc, &Zacc)<0) UART_PRINT("!!! acc I2c Error\n\r");
+			accMag = sqrt(Xacc*Xacc + Yacc*Yacc + Zacc*Zacc);
+		}
+		accMag=100;
+		UART_PRINT("\n");
+		while(abs(accMag-1) > 0.1)
+		{
+			if(ADXL345_read_accdata(ACC_ADDR, &Xacc, &Yacc, &Zacc)<0) UART_PRINT("!!! acc I2c Error\n\r");
+			accMag = sqrt(Xacc*Xacc + Yacc*Yacc + Zacc*Zacc);
+			sprintf(databuf,"\n\r|ACC| = %f               ",accMag);
+			UART_PRINT(databuf);
+		}
+		sprintf(databuf,"\r|ACC| = %f               ",accMag);
+		UART_PRINT(databuf);
+		UART_PRINT("\n\r");
 
 		if(HMC5883_read_magdata(MAG_ADDR, &Xmag, &Ymag, &Zmag)<0) UART_PRINT("!!! mag I2c Error\n\r");
-		if(ADXL345_read_accdata(ACC_ADDR, &Xacc, &Yacc, &Zacc)<0) UART_PRINT("!!! acc I2c Error\n\r");
-		accMag = sqrt(Xacc*Xacc + Yacc*Yacc + Zacc*Zacc);
 
 		IMU_calculate(-Xacc/accMag, -Yacc/accMag, Zacc/accMag, -Xmag, -Ymag, Zmag, &roll, &pitch, &yaw);
-		sprintf(databuf,"MAG=(%5f, %5f, %5f) ACC=(%5f, %5f, %5f)\n\r(roll, pitch, yaw) = (%5f, %5f, %5f)\n\r", Xmag, Ymag, Zmag, Xacc/accMag, Yacc/accMag, Zacc/accMag, roll, pitch, yaw);
-		UART_PRINT(databuf);
-
-		sprintf(databuf,"Time:%d.%05d\n\rDate:%d\n\rLat:%ld Long:%ld\n\rFix:%s\n\r",
-				gpsTime, gpsMsecs, gpsDate, gpsLat, gpsLong, (gpsFix>0)?"Yes":"No");
-		UART_PRINT(databuf);
-
-		sprintf(databuf,"X: %f    %f\n\rY:%f    %f\n\rZ:%f    %f\n\r",
-				Xmin, Xmax, Ymin, Ymax, Zmin, Zmax);
+		int yawyaw = yaw;
+		sprintf(databuf,"MAG=(%5f, %5f, %5f) ACC=(%5f, %5f, %5f) |ACC| = %f\n\r(roll, pitch, yaw) = (%5f, %5f, %5f)\n\r", Xmag, Ymag, Zmag, Xacc, Yacc, Zacc, accMag, roll, pitch, yaw);
 		UART_PRINT(databuf);
 
 		sprintf(databuf,"ID=%lld\n\r", ds2401_get_id_long());
@@ -215,17 +244,62 @@ int main()
 		sprintf(pBuffer,"pressure=%fkPa\n\r", pressure);
 		UART_PRINT(pBuffer);
 
-		/*
-		sprintf(strbuffer,"/shots/get/12345/%d/%d/0/%d", (int)roll, (int)pitch, (int)yaw);
+		UART_PRINT("Wait for GPS lock here...");
+		GPS_on();
+		//	while(gpsFix==0)
+		//	{
+		//
+		//	}
+		gpsLat = 32.776674;
+		gpsLong = 35.024696;
+		sprintf(databuf,"Time:%d.%05d\n\rDate:%d\n\rLat:%ld Long:%ld\n\rFix:%s\n\r",
+				gpsTime, gpsMsecs, gpsDate, gpsLat, gpsLong, (gpsFix>0)?"Yes":"No");
+		GPS_off();
+		UART_PRINT(databuf);
+
+		sprintf(databuf,"X: %f    %f\n\rY:%f    %f\n\rZ:%f    %f\n\r",
+				Xmin, Xmax, Ymin, Ymax, Zmin, Zmax);
+		UART_PRINT(databuf);
+
+
+
+
+
+		InitializeAppVariables();
+		//ConfigureSimpleLinkToDefaultState();
+
+		UART_PRINT("\n\r\n\rStops here on failure caused by debug!\n\r\n\r");
+		lRetVal = ConnectToAP();
+
+		if(lRetVal < 0)
+		{
+			UART_PRINT("\n\rError!!!\n\r");
+			LOOP_FOREVER();
+		}
+
+		lRetVal = ConnectToHTTPServer(&httpClient);
+		if(lRetVal < 0)
+		{
+			LOOP_FOREVER();
+		}
+		UART_PRINT("Connected to server!\n\r\n\r");
+
+		sprintf(strbuffer,"/shots/get/%ld/%ld/%ld/%d/%d",(long) ds2401_get_id_long(), gpsLat, gpsLong, (int)pressure, yawyaw);
+
+		//sprintf(strbuffer,"/shots/get/1/2/3/4/5");
 		lRetVal = HTTPGetMethod(&httpClient, strbuffer);
 		if(lRetVal < 0)
 		{
 			UART_PRINT("HTTP Post Get failed.\n\r");
 		}
-		UART_PRINT("HTTP Get sent to server!\n\r\n\r");
-		 */
+		UART_PRINT("HTTP Get sent to server! (");
+		UART_PRINT(strbuffer);
+		UART_PRINT(")\n\r\n\r");
 
-		UtilsDelay(2666667);
+		HTTPCli_disconnect(&httpClient);
+		sl_WlanDisconnect();
+		sl_Stop(30);
+		UART_PRINT("Connection closed.\n\r");
 	}
 
 	HTTPCli_disconnect(&httpClient);

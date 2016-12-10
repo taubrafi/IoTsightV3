@@ -7,45 +7,33 @@ CMD_SRCS += \
 ../cc3200v1p32.cmd 
 
 C_SRCS += \
-C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/gpio_if.c \
-../main.c \
-C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/network_common.c \
-../pinmux.c \
-C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/uart_if.c 
+C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/gpio_if.c \
+C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/network_common.c \
+C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/uart_if.c 
 
 OBJS += \
 ./gpio_if.obj \
-./main.obj \
 ./network_common.obj \
-./pinmux.obj \
 ./uart_if.obj 
 
 C_DEPS += \
-./gpio_if.pp \
-./main.pp \
-./network_common.pp \
-./pinmux.pp \
-./uart_if.pp 
+./gpio_if.d \
+./network_common.d \
+./uart_if.d 
 
 C_DEPS__QUOTED += \
-"gpio_if.pp" \
-"main.pp" \
-"network_common.pp" \
-"pinmux.pp" \
-"uart_if.pp" 
+"gpio_if.d" \
+"network_common.d" \
+"uart_if.d" 
 
 OBJS__QUOTED += \
 "gpio_if.obj" \
-"main.obj" \
 "network_common.obj" \
-"pinmux.obj" \
 "uart_if.obj" 
 
 C_SRCS__QUOTED += \
-"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/gpio_if.c" \
-"../main.c" \
-"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/network_common.c" \
-"../pinmux.c" \
-"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/uart_if.c" 
+"C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/gpio_if.c" \
+"C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/network_common.c" \
+"C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/uart_if.c" 
 
 

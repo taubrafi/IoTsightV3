@@ -4,23 +4,21 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5
+CG_TOOL_ROOT := C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS
 
-GEN_OPTS__FLAG := --cmd_file="C:/ti/CC3200SDK_1.2.0/cc3200-sdk/ti_rtos/ti_rtos_config/ccs/Default/configPkg/compiler.opt"
-GEN_CMDS__FLAG := -l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/ti_rtos/ti_rtos_config/ccs/Default/configPkg/linker.cmd"
+GEN_OPTS__FLAG := 
+GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
 "./gpio_if.obj" \
-"./main.obj" \
 "./network_common.obj" \
-"./pinmux.obj" \
 "./uart_if.obj" \
 "../cc3200v1p32.cmd" \
 $(GEN_CMDS__FLAG) \
--l"libc.a" \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/getting_started_with_wlan_station/ccs/../../../driverlib/ccs/Release/driverlib.a" \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/getting_started_with_wlan_station/ccs/../../../simplelink/ccs/OS/simplelink.a" \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/getting_started_with_wlan_station/ccs/../../../oslib/ccs/ti_rtos/ti_rtos.a" \
+-llibc.a \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/driverlib/ccs/Release/driverlib.a" \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/simplelink/ccs/OS/simplelink.a" \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/oslib/ccs/ti_rtos/ti_rtos.a" \
 
 -include ../makefile.init
 
@@ -51,6 +49,9 @@ ifneq ($(strip $(ASM_DEPS)),)
 endif
 ifneq ($(strip $(CC_DEPS)),)
 -include $(CC_DEPS)
+endif
+ifneq ($(strip $(SV7A_DEPS)),)
+-include $(SV7A_DEPS)
 endif
 ifneq ($(strip $(S55_DEPS)),)
 -include $(S55_DEPS)
@@ -139,21 +140,18 @@ BIN_OUTPUTS__QUOTED += \
 # All Target
 all: wlan_station.out
 
-dependents:
-	-cd C:/ti/CC3200SDK_1.2.0/cc3200-sdk/ti_rtos/ti_rtos_config/ccs/Default && $(MAKE) clean all
-
 # Tool invocations
-wlan_station.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS) C:/ti/CC3200SDK_1.2.0/cc3200-sdk/ti_rtos/ti_rtos_config/ccs/Default/configPkg/linker.cmd
+wlan_station.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armcl" -mv7M4 --abi=eabi -me -g --define=ccs --define=USE_TIRTOS --define=SL_PLATFORM_MULTI_THREADED --define=cc3200 --diag_wrap=off --diag_warning=225 --display_error_number -z -m"wlan_station.map" --heap_size=0x800 --stack_size=0x800 -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/include" --reread_libs --display_error_number --diag_wrap=off --warn_sections --xml_link_info="wlan_station_linkInfo.xml" --rom_model -o "wlan_station.out" $(ORDERED_OBJS)
+	"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armcl" -mv7M4 --abi=eabi -me -g --define=ccs --define=USE_TIRTOS --define=SL_PLATFORM_MULTI_THREADED --define=cc3200 --diag_wrap=off --diag_warning=225 --display_error_number -z -m"wlan_station.map" --heap_size=0x800 --stack_size=0x800 -i"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/lib" -i"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/include" --reread_libs --display_error_number --diag_wrap=off --warn_sections --xml_link_info="wlan_station_linkInfo.xml" --rom_model -o "wlan_station.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
 
 wlan_station.bin: $(EXE_OUTPUTS)
 	@echo 'Invoking: ARM Hex Utility'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armhex"  -o "wlan_station.bin" $(EXE_OUTPUTS__QUOTED)
+	"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armhex"  -o "wlan_station.bin" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
@@ -161,18 +159,17 @@ wlan_station.bin: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "gpio_if.pp" "main.pp" "network_common.pp" "pinmux.pp" "uart_if.pp" 
-	-$(RM) "gpio_if.obj" "main.obj" "network_common.obj" "pinmux.obj" "uart_if.obj" 
+	-$(RM) "gpio_if.d" "network_common.d" "uart_if.d" 
+	-$(RM) "gpio_if.obj" "network_common.obj" "uart_if.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
 post-build:
-	-"C:/ti/ccsv6/utils/tiobj2bin/tiobj2bin" "wlan_station.out" "wlan_station.bin" "C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armofd" "C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armhex" "C:/ti/ccsv6/utils/tiobj2bin/mkhex4bin"
+	-"C:/TI/ccsv6/utils/tiobj2bin/tiobj2bin" "wlan_station.out" "wlan_station.bin" "C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armofd" "C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armhex" "C:/TI/ccsv6/utils/tiobj2bin/mkhex4bin"
 	-@echo ' '
 
 .PHONY: all clean dependents
 .SECONDARY: post-build
-C:/ti/CC3200SDK_1.2.0/cc3200-sdk/ti_rtos/ti_rtos_config/ccs/Default/configPkg/linker.cmd:
 
 -include ../makefile.targets
 

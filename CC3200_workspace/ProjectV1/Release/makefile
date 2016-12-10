@@ -4,7 +4,7 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5
+CG_TOOL_ROOT := C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
@@ -19,9 +19,9 @@ ORDERED_OBJS += \
 "./uart_if.obj" \
 "../cc3200v1p32.cmd" \
 $(GEN_CMDS__FLAG) \
--l"libc.a" \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/http_client_demo/ccs/../../../driverlib/ccs/Release/driverlib.a" \
--l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/http_client_demo/ccs/../../../simplelink/ccs/NON_OS/simplelink.a" \
+-llibc.a \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/driverlib/ccs/Release/driverlib.a" \
+-l"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/simplelink/ccs/NON_OS/simplelink.a" \
 -lwebclient.a \
 -ljson.a \
 
@@ -54,6 +54,9 @@ ifneq ($(strip $(ASM_DEPS)),)
 endif
 ifneq ($(strip $(CC_DEPS)),)
 -include $(CC_DEPS)
+endif
+ifneq ($(strip $(SV7A_DEPS)),)
+-include $(SV7A_DEPS)
 endif
 ifneq ($(strip $(S55_DEPS)),)
 -include $(S55_DEPS)
@@ -127,33 +130,33 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-http_client_demo.out \
+ProjectV1.out \
 
 EXE_OUTPUTS__QUOTED += \
-"http_client_demo.out" \
+"ProjectV1.out" \
 
 BIN_OUTPUTS += \
-http_client_demo.hex \
+ProjectV1.hex \
 
 BIN_OUTPUTS__QUOTED += \
-"http_client_demo.hex" \
+"ProjectV1.hex" \
 
 
 # All Target
-all: http_client_demo.out
+all: ProjectV1.out
 
 # Tool invocations
-http_client_demo.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+ProjectV1.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armcl" -mv7M4 --code_state=16 --float_support=vfplib --abi=eabi -me --opt_for_speed=0 -g --define=cc3200 --define=__SL__ --define=ccs --diag_wrap=off --diag_warning=225 --display_error_number -z -m"http_client_demo.map" --heap_size=0x800 --stack_size=0x800 -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/include" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/netapps/http/client/ccs/HTTPClientMinLib" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/netapps/json/ccs/Release/" --reread_libs --display_error_number --diag_wrap=off --warn_sections --xml_link_info="http_client_demo_linkInfo.xml" --rom_model -o "http_client_demo.out" $(ORDERED_OBJS)
+	"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=vfplib --abi=eabi -me --opt_for_speed=0 -g --define=cc3200 --define=__SL__ --define=ccs --diag_wrap=off --diag_warning=225 --display_error_number -z -m"ProjectV1.map" --heap_size=0x800 --stack_size=0x800 -i"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/lib" -i"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/include" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/netapps/http/client/ccs/HTTPClientMinLib" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/netapps/json/ccs/Release/" --reread_libs --display_error_number --diag_wrap=off --warn_sections --xml_link_info="ProjectV1_linkInfo.xml" --rom_model -o "ProjectV1.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
 
-http_client_demo.hex: $(EXE_OUTPUTS)
+ProjectV1.hex: $(EXE_OUTPUTS)
 	@echo 'Invoking: ARM Hex Utility'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armhex"  -o "http_client_demo.hex" $(EXE_OUTPUTS__QUOTED)
+	"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armhex"  -o "ProjectV1.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
@@ -161,13 +164,13 @@ http_client_demo.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "SimpleLinkFunctions.pp" "gpio_if.pp" "main.pp" "network_common.pp" "pinmux.pp" "startup_ccs.pp" "uart_if.pp" 
+	-$(RM) "SimpleLinkFunctions.d" "gpio_if.d" "main.d" "network_common.d" "pinmux.d" "startup_ccs.d" "uart_if.d" 
 	-$(RM) "SimpleLinkFunctions.obj" "gpio_if.obj" "main.obj" "network_common.obj" "pinmux.obj" "startup_ccs.obj" "uart_if.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
 post-build:
-	-"C:/ti/ccsv6/utils/tiobj2bin/tiobj2bin" "http_client_demo.out" "http_client_demo.bin" "C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armofd" "C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armhex" "C:/ti/ccsv6/utils/tiobj2bin/mkhex4bin"
+	-"C:/TI/ccsv6/utils/tiobj2bin/tiobj2bin" "ProjectV1.out" "ProjectV1.bin" "C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armofd" "C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armhex" "C:/TI/ccsv6/utils/tiobj2bin/mkhex4bin"
 	-@echo ' '
 
 .PHONY: all clean dependents

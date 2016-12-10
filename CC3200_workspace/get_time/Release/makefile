@@ -4,7 +4,7 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5
+CG_TOOL_ROOT := C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
@@ -21,7 +21,7 @@ ORDERED_OBJS += \
 "./udma_if.obj" \
 "../cc3200v1p32.cmd" \
 $(GEN_CMDS__FLAG) \
--l"libc.a" \
+-llibc.a \
 -lfree_rtos.a \
 -lsimplelink.a \
 -ldriverlib.a \
@@ -55,6 +55,9 @@ ifneq ($(strip $(ASM_DEPS)),)
 endif
 ifneq ($(strip $(CC_DEPS)),)
 -include $(CC_DEPS)
+endif
+ifneq ($(strip $(SV7A_DEPS)),)
+-include $(SV7A_DEPS)
 endif
 ifneq ($(strip $(S55_DEPS)),)
 -include $(S55_DEPS)
@@ -147,14 +150,14 @@ all: get_time.out
 get_time.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armcl" -mv7M4 --code_state=16 --float_support=fpalib --abi=eabi -me -g --gcc --define=ccs --define=SL_PLATFORM_MULTI_THREADED --define=USE_FREERTOS --define=cc3200 --diag_wrap=off --diag_warning=225 --display_error_number -z -m"get_time.map" --heap_size=0x8000 --stack_size=0x800 -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/lib" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/include" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/driverlib/ccs/Release" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/simplelink/ccs/OS" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/oslib/ccs/free_rtos" --reread_libs --display_error_number --diag_wrap=off --warn_sections --xml_link_info="get_time_linkInfo.xml" --rom_model -o "get_time.out" $(ORDERED_OBJS)
+	"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=fpalib --abi=eabi -me -g --gcc --define=ccs --define=SL_PLATFORM_MULTI_THREADED --define=USE_FREERTOS --define=cc3200 --diag_wrap=off --diag_warning=225 --display_error_number -z -m"get_time.map" --heap_size=0x8000 --stack_size=0x800 -i"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/lib" -i"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/include" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/driverlib/ccs/Release" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/simplelink/ccs/OS" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/oslib/ccs/free_rtos" --reread_libs --display_error_number --diag_wrap=off --warn_sections --xml_link_info="get_time_linkInfo.xml" --rom_model -o "get_time.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
 
 get_time.bin: $(EXE_OUTPUTS)
 	@echo 'Invoking: ARM Hex Utility'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armhex"  -o "get_time.bin" $(EXE_OUTPUTS__QUOTED)
+	"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armhex"  -o "get_time.bin" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
@@ -162,13 +165,13 @@ get_time.bin: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "gpio_if.pp" "main.pp" "network_common.pp" "network_if.pp" "pinmux.pp" "startup_ccs.pp" "timer_if.pp" "uart_if.pp" "udma_if.pp" 
+	-$(RM) "gpio_if.d" "main.d" "network_common.d" "network_if.d" "pinmux.d" "startup_ccs.d" "timer_if.d" "uart_if.d" "udma_if.d" 
 	-$(RM) "gpio_if.obj" "main.obj" "network_common.obj" "network_if.obj" "pinmux.obj" "startup_ccs.obj" "timer_if.obj" "uart_if.obj" "udma_if.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
 post-build:
-	-"C:/ti/ccsv6/utils/tiobj2bin/tiobj2bin" "get_time.out" "get_time.bin" "C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armofd" "C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armhex" "C:/ti/ccsv6/utils/tiobj2bin/mkhex4bin"
+	-"C:/TI/ccsv6/utils/tiobj2bin/tiobj2bin" "get_time.out" "get_time.bin" "C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armofd" "C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armhex" "C:/TI/ccsv6/utils/tiobj2bin/mkhex4bin"
 	-@echo ' '
 
 .PHONY: all clean dependents

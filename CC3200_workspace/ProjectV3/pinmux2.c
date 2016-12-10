@@ -180,8 +180,8 @@ void PinMuxConfig(void)
 
 
 
-	//61 62 63
-	//GPS pwr pin (0-on, 1-off)
+	//61 62 //63
+	//LED pins
 	PinConfigSet(PIN_61,PIN_STRENGTH_2MA, PIN_TYPE_STD_PU);
 	PinConfigSet(PIN_62,PIN_STRENGTH_2MA, PIN_TYPE_STD_PU);
 	//PinConfigSet(PIN_63,PIN_STRENGTH_6MA, PIN_TYPE_STD_PU);
@@ -190,8 +190,15 @@ void PinMuxConfig(void)
 	GPIODirModeSet(GPIOA0_BASE, GPIO_PIN_7, GPIO_DIR_MODE_OUT);
 	//GPIODirModeSet(GPIOA1_BASE, GPIO_PIN_0, GPIO_DIR_MODE_OUT);
 
-	GPIOPinWrite(GPIOA0_BASE, GPIO_PIN_6|GPIO_PIN_7, 0xFF);
+	//GPIOPinWrite(GPIOA0_BASE, GPIO_PIN_6|GPIO_PIN_7, 0xFF);
 	//GPIOPinWrite(GPIOA1_BASE, GPIO_PIN_0, 0xFF);
+
+
+	// ACC interrupt pin
+	GPIODirModeSet(GPIOA0_BASE, GPIO_PIN_4, GPIO_DIR_MODE_IN);
+
+
+
 
 
 

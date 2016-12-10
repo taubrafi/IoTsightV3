@@ -4,8 +4,10 @@
  *  Created on: Jun 16, 2016
  *      Author: Rafi
  */
-#include "includes.h"
+
 #include "NetworkFunctions.h"
+#include "includes.h"
+
 
 volatile unsigned long  g_ulStatus = 0;//SimpleLink Status
 unsigned long  g_ulDestinationIP; // IP address of destination server
@@ -24,7 +26,7 @@ long bytesReceived = 0; // variable to store the file size
 //! \return None
 //!
 //*****************************************************************************
-static void InitializeAppVariables()
+void InitializeAppVariables()
 {
 	g_ulStatus = 0;
 	g_ulGatewayIP = 0;
@@ -48,7 +50,7 @@ static void InitializeAppVariables()
 //! \param   none
 //! \return  On success, zero is returned. On error, negative is returned
 //*****************************************************************************
-static long ConfigureSimpleLinkToDefaultState()
+long ConfigureSimpleLinkToDefaultState()
 {
 	SlVersionFull   ver = {0};
 	_WlanRxFilterOperationCommandBuff_t  RxFilterIdMask = {0};
@@ -59,9 +61,10 @@ static long ConfigureSimpleLinkToDefaultState()
 	unsigned char ucPower = 0;
 
 	long lRetVal = -1;
-	long lMode = -1;
-
+	long lMode = ROLE_STA;//-1;
+	//UART_PRINT("\n\rHello\n\r");
 	lMode = sl_Start(0, 0, 0);
+	//UART_PRINT("\n\rHello2\n\r");
 	ASSERT_ON_ERROR(lMode);
 
 	// If the device is not in station-mode, try configuring it in station-mode
@@ -196,7 +199,7 @@ static long ConfigureSimpleLinkToDefaultState()
 //!            address, It will be stuck in this function forever.
 //
 //****************************************************************************
-static long WlanConnect()
+long WlanConnect()
 {
 	SlSecParams_t secParams = {0};
 	long lRetVal = 0;
@@ -230,7 +233,7 @@ static long WlanConnect()
 //! \return 0 on success else error code on failure
 //!
 //*****************************************************************************
-static int FlushHTTPResponse(HTTPCli_Handle httpClient)
+int FlushHTTPResponse(HTTPCli_Handle httpClient)
 {
 	const char *ids[2] = {
 			HTTPCli_FIELD_NAME_CONNECTION, /* App will get connection header value. all others will skip by lib */
@@ -357,7 +360,7 @@ int ParseJSONData(char *ptr)
 
     \warning
  */
-static int readResponse(HTTPCli_Handle httpClient)
+int readResponse(HTTPCli_Handle httpClient)
 {
 	long lRetVal = 0;
 	int bytesRead = 0;
@@ -544,7 +547,7 @@ static int readResponse(HTTPCli_Handle httpClient)
 //! \return 0 on success else error code on failure
 //!
 //*****************************************************************************
-static int HTTPGetMethod(HTTPCli_Handle httpClient, char* strbuffer)
+int HTTPGetMethod(HTTPCli_Handle httpClient, char* strbuffer)
 {
 
 	long lRetVal = 0;
@@ -589,7 +592,7 @@ static int HTTPGetMethod(HTTPCli_Handle httpClient, char* strbuffer)
 //! \return Error-code or SUCCESS
 //!
 //*****************************************************************************
-static long ConnectToAP()
+long ConnectToAP()
 {
 	long lRetVal = -1;
 
@@ -647,7 +650,7 @@ static long ConnectToAP()
 //! \return Error-code or SUCCESS
 //!
 //*****************************************************************************
-static int ConnectToHTTPServer(HTTPCli_Handle httpClient)
+int ConnectToHTTPServer(HTTPCli_Handle httpClient)
 {
 	long lRetVal = -1;
 	struct sockaddr_in addr;

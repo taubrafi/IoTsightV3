@@ -4,7 +4,7 @@
 
 SHELL = cmd.exe
 
-CG_TOOL_ROOT := C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5
+CG_TOOL_ROOT := C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS
 
 GEN_OPTS__FLAG := 
 GEN_CMDS__FLAG := 
@@ -22,7 +22,7 @@ ORDERED_OBJS += \
 "./wdt_if.obj" \
 "../cc3200v1p32.cmd" \
 $(GEN_CMDS__FLAG) \
--l"libc.a" \
+-llibc.a \
 -ldriverlib.a \
 -lsimplelink.a \
 -lmiddleware.a \
@@ -56,6 +56,9 @@ ifneq ($(strip $(ASM_DEPS)),)
 endif
 ifneq ($(strip $(CC_DEPS)),)
 -include $(CC_DEPS)
+endif
+ifneq ($(strip $(SV7A_DEPS)),)
+-include $(SV7A_DEPS)
 endif
 ifneq ($(strip $(S55_DEPS)),)
 -include $(S55_DEPS)
@@ -148,14 +151,14 @@ all: power_measurement.out
 power_measurement.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: $@'
 	@echo 'Invoking: ARM Linker'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armcl" -mv7M4 --code_state=16 --float_support=vfplib --abi=eabi -me -g --define=cc3200 --define=ccs --diag_wrap=off --diag_warning=225 --display_error_number --printf_support=full -z -m"power_measurement.map" --heap_size=0x8000 --stack_size=0x4000 -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/lib" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/driverlib/ccs/Release/" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/simplelink/ccs/NON_OS_PM/" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/middleware/ccs/Release/" -i"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/include" --reread_libs --display_error_number --diag_wrap=off --warn_sections --xml_link_info="power_measurement_linkInfo.xml" --rom_model -o "power_measurement.out" $(ORDERED_OBJS)
+	"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=vfplib --abi=eabi -me -g --define=cc3200 --define=ccs --diag_wrap=off --diag_warning=225 --display_error_number --printf_support=full -z -m"power_measurement.map" --heap_size=0x8000 --stack_size=0x4000 -i"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/lib" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/driverlib/ccs/Release/" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/simplelink/ccs/NON_OS_PM/" -i"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/middleware/ccs/Release/" -i"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/include" --reread_libs --display_error_number --diag_wrap=off --warn_sections --xml_link_info="power_measurement_linkInfo.xml" --rom_model -o "power_measurement.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
 
 power_measurement.hex: $(EXE_OUTPUTS)
 	@echo 'Invoking: ARM Hex Utility'
-	"C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armhex"  -o "power_measurement.hex" $(EXE_OUTPUTS__QUOTED)
+	"C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armhex"  -o "power_measurement.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $@'
 	@echo ' '
 	@$(MAKE) --no-print-directory post-build
@@ -163,13 +166,13 @@ power_measurement.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "lp3p0_board.pp" "lp3p0_plat_ops.pp" "main.pp" "network_common.pp" "pinmux.pp" "startup_ccs.pp" "uart_if.pp" "udma_if.pp" "utils_if.pp" "wdt_if.pp" 
+	-$(RM) "lp3p0_board.d" "lp3p0_plat_ops.d" "main.d" "network_common.d" "pinmux.d" "startup_ccs.d" "uart_if.d" "udma_if.d" "utils_if.d" "wdt_if.d" 
 	-$(RM) "lp3p0_board.obj" "lp3p0_plat_ops.obj" "main.obj" "network_common.obj" "pinmux.obj" "startup_ccs.obj" "uart_if.obj" "udma_if.obj" "utils_if.obj" "wdt_if.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 
 post-build:
-	-"C:/ti/ccsv6/utils/tiobj2bin/tiobj2bin" "power_measurement.out" "power_measurement.bin" "C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armofd" "C:/ti/ccsv6/tools/compiler/ti-cgt-arm_5.2.5/bin/armhex" "C:/ti/ccsv6/utils/tiobj2bin/mkhex4bin"
+	-"C:/TI/ccsv6/utils/tiobj2bin/tiobj2bin" "power_measurement.out" "power_measurement.bin" "C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armofd" "C:/TI/ccsv6/tools/compiler/ti-cgt-arm_15.12.1.LTS/bin/armhex" "C:/TI/ccsv6/utils/tiobj2bin/mkhex4bin"
 	-@echo ' '
 
 .PHONY: all clean dependents

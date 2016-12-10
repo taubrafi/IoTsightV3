@@ -10,8 +10,8 @@ C_SRCS += \
 ../adc_userinput.c \
 ../main.c \
 ../pinmux.c \
-C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/startup_ccs.c \
-C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/uart_if.c 
+C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/startup_ccs.c \
+C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/uart_if.c 
 
 OBJS += \
 ./adc_userinput.obj \
@@ -21,18 +21,18 @@ OBJS += \
 ./uart_if.obj 
 
 C_DEPS += \
-./adc_userinput.pp \
-./main.pp \
-./pinmux.pp \
-./startup_ccs.pp \
-./uart_if.pp 
+./adc_userinput.d \
+./main.d \
+./pinmux.d \
+./startup_ccs.d \
+./uart_if.d 
 
 C_DEPS__QUOTED += \
-"adc_userinput.pp" \
-"main.pp" \
-"pinmux.pp" \
-"startup_ccs.pp" \
-"uart_if.pp" 
+"adc_userinput.d" \
+"main.d" \
+"pinmux.d" \
+"startup_ccs.d" \
+"uart_if.d" 
 
 OBJS__QUOTED += \
 "adc_userinput.obj" \
@@ -45,7 +45,7 @@ C_SRCS__QUOTED += \
 "../adc_userinput.c" \
 "../main.c" \
 "../pinmux.c" \
-"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/startup_ccs.c" \
-"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/uart_if.c" 
+"C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/startup_ccs.c" \
+"C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/uart_if.c" 
 
 

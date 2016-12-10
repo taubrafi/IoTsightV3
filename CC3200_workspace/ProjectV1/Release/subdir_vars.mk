@@ -8,12 +8,12 @@ CMD_SRCS += \
 
 C_SRCS += \
 ../SimpleLinkFunctions.c \
-C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/gpio_if.c \
+C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/gpio_if.c \
 ../main.c \
-C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/network_common.c \
+C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/network_common.c \
 ../pinmux.c \
-C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/startup_ccs.c \
-C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/uart_if.c 
+C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/startup_ccs.c \
+C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/uart_if.c 
 
 OBJS += \
 ./SimpleLinkFunctions.obj \
@@ -25,22 +25,22 @@ OBJS += \
 ./uart_if.obj 
 
 C_DEPS += \
-./SimpleLinkFunctions.pp \
-./gpio_if.pp \
-./main.pp \
-./network_common.pp \
-./pinmux.pp \
-./startup_ccs.pp \
-./uart_if.pp 
+./SimpleLinkFunctions.d \
+./gpio_if.d \
+./main.d \
+./network_common.d \
+./pinmux.d \
+./startup_ccs.d \
+./uart_if.d 
 
 C_DEPS__QUOTED += \
-"SimpleLinkFunctions.pp" \
-"gpio_if.pp" \
-"main.pp" \
-"network_common.pp" \
-"pinmux.pp" \
-"startup_ccs.pp" \
-"uart_if.pp" 
+"SimpleLinkFunctions.d" \
+"gpio_if.d" \
+"main.d" \
+"network_common.d" \
+"pinmux.d" \
+"startup_ccs.d" \
+"uart_if.d" 
 
 OBJS__QUOTED += \
 "SimpleLinkFunctions.obj" \
@@ -53,11 +53,11 @@ OBJS__QUOTED += \
 
 C_SRCS__QUOTED += \
 "../SimpleLinkFunctions.c" \
-"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/gpio_if.c" \
+"C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/gpio_if.c" \
 "../main.c" \
-"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/network_common.c" \
+"C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/network_common.c" \
 "../pinmux.c" \
-"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/startup_ccs.c" \
-"C:/ti/CC3200SDK_1.2.0/cc3200-sdk/example/common/uart_if.c" 
+"C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/startup_ccs.c" \
+"C:/TI/CC3200SDK_1.2.0/cc3200-sdk/example/common/uart_if.c" 
 
 

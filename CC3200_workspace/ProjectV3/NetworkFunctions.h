@@ -8,15 +8,20 @@
 #ifndef NETWORKFUNCTIONS_H_
 #define NETWORKFUNCTIONS_H_
 
-static void InitializeAppVariables();
-static long ConfigureSimpleLinkToDefaultState();
-static long WlanConnect();
-static int FlushHTTPResponse(HTTPCli_Handle httpClient);
+
+#include <http/client/httpcli.h>
+#include <http/client/common.h>
+
+
+ void InitializeAppVariables();
+ long ConfigureSimpleLinkToDefaultState();
+ long WlanConnect();
+ int FlushHTTPResponse(HTTPCli_Handle httpClient);
 int ParseJSONData(char *ptr);
-static int readResponse(HTTPCli_Handle httpClient);
-static int HTTPGetMethod(HTTPCli_Handle httpClient, char* strbuffer);
-static long ConnectToAP();
-static int ConnectToHTTPServer(HTTPCli_Handle httpClient);
+ int readResponse(HTTPCli_Handle httpClient);
+ int HTTPGetMethod(HTTPCli_Handle httpClient, char* strbuffer);
+ long ConnectToAP();
+ int ConnectToHTTPServer(HTTPCli_Handle httpClient);
 
 
 #endif /* NETWORKFUNCTIONS_H_ */

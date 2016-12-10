@@ -8,6 +8,8 @@
 #ifndef INCLUDES_H_
 #define INCLUDES_H_
 
+#include "parameters.h"
+
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -46,6 +48,7 @@
 #include "i2c_if.h"
 #include "common.h"
 #include "pinmux.h"
+
 
 
 // HTTP Client lib
@@ -98,7 +101,7 @@ typedef enum{
 
 
 // Aplication Specific
-#include "parameters.h"
+
 #include "SimpleLinkFunctions.h"
 #include "NetworkFunctions.h"
 

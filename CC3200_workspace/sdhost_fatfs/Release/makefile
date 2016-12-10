@@ -10,9 +10,6 @@ GEN_OPTS__FLAG :=
 GEN_CMDS__FLAG := 
 
 ORDERED_OBJS += \
-"./diskio.obj" \
-"./main.obj" \
-"./pinmux.obj" \
 "./startup_ccs.obj" \
 "./uart_if.obj" \
 "../cc3200v1p32.cmd" \
@@ -160,8 +157,8 @@ sdhost_fatfs.bin: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(EXE_OUTPUTS__QUOTED)$(BIN_OUTPUTS__QUOTED)
-	-$(RM) "diskio.d" "main.d" "pinmux.d" "startup_ccs.d" "uart_if.d" 
-	-$(RM) "diskio.obj" "main.obj" "pinmux.obj" "startup_ccs.obj" "uart_if.obj" 
+	-$(RM) "startup_ccs.d" "uart_if.d" 
+	-$(RM) "startup_ccs.obj" "uart_if.obj" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

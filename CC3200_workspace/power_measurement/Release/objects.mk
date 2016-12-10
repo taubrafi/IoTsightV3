@@ -4,5 +4,5 @@
 
 USER_OBJS :=
 
-LIBS := -l"libc.a" -ldriverlib.a -lsimplelink.a -lmiddleware.a
+LIBS := -llibc.a -ldriverlib.a -lsimplelink.a -lmiddleware.a
 

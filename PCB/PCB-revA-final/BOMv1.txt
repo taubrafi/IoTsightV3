@@ -1,0 +1,23 @@
+Value/part number	Qty		Package					Notes						URL
+ADA18182			1		GPS_Antenna											http://il.farnell.com/adactus/ada-18182/antenna-gps-patch-2-5db-18mm-sq/dp/1899498?ost=ADA18182&selectedCategoryId=&categoryNameResp=All%2BCategories&iscrfnonsku=false
+cap 0.22uF			1		C-0805												***generic 0805-0.22uF cap***	
+cap 4.7uf			5		C-0805												***generic 0805-4.7uF cap***	
+cap 0.1uF			10		C-0805												***generic 0805-0.1uF cap***	
+cap 2.2nf			1		C-0805												***generic 0805-2.2nF cap***	
+cap 0.01uF			1		C-0805												***generic 0805-0.01uF cap***	
+cap 1uF				2		C-0805												***generic 0805-1.0uF cap***	
+DS2401P				1		TSOC6					DS2401P+					http://il.farnell.com/maxim-integrated-products/ds2401p/silicon-serial-number-2401-tsoc/dp/2519439
+47352-1001			1		MICRO-SD-SOCKET-SDIO								http://il.farnell.com/molex/47352-1001/connector-micro-sd-8pos/dp/2424133/true
+Generic 0805 LED	3		CHIPLED_0805										***generic 0805 LED***		
+res 10k				2		R-0603												***generic 0603-10k res***	
+res 2.7k			5		R-0603												***generic 0603-2.7k res***	
+res 100k			3		R-0603												***generic 0603-100k res***	
+res 470R			3		R-0603												***generic 0603-470R res***	
+BS250				1		SOT-23					May be called TP0610T		http://il.farnell.com/diodes-inc/bs250fta/mosfet-p-ch-45v-0-09a-sot23-3/dp/1843731
+CC3200MOD			1		CC3200MOD				Make sure suffix MOD !		http://www.ti.com/product/cc3200mod/samplebuy
+UBLOX_NEO-6M		1		UBLOX_NEO-6M										http://www.ebay.com/itm/NEO-6M-0-001-NEO-6M-U-blox-GPS-Positioning-Module-Quadcopter-Position-/161718012276?hash=item25a7250974:g:LzsAAOSw5L9XD4Di
+MIC2920A-3.3WS-TR	1		SOT223												http://il.farnell.com/microchip/mic2920a-3-3ws-tr/ldo-reg-26vin-0-4a-3-3v-3sot223/dp/2510013
+ADXL345				1		LGA14												http://il.farnell.com/analog-devices/adxl345bccz/ic-accelerometer-3axis-14lga/dp/1853935
+HMC5883L			1		16LPCC					Make sure suffix L !		http://il.farnell.com/honeywell/hmc5883l-tr/ic-digital-compass-3-axis-16-pin/dp/1971743?ost=HMC5883L&selectedCategoryId=&categoryId=700000005875&iscrfnonsku=false
+ITG-3200			1		QFN-24					***Only buy 2or3 total***	http://il.farnell.com/invensense/itg-3200/ic-gyro-tri-axis-2000-deg-s-24qfn/dp/1858279
+MPL115A2			1		LGA8					Make sure suffix A2 !		http://il.farnell.com/nxp/mpl115a2/mini-i2c-digital-barometer-50/dp/2102577
